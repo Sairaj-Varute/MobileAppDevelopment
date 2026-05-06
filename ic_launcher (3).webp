@@ -1,44 +1,52 @@
-package com.example.notification;
+package com.example.popupmenu;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.example.notification.databinding.FragmentFirstBinding;
-
-public class FirstFragment extends Fragment {
-
-    private FragmentFirstBinding binding;
+public class MainActivity extends AppCompatActivity {
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        Button button = findViewById(R.id.clickBtn);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, button);
+
+                popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        int id = item.getItemId();
+
+                        if (id == R.id.android) {
+                            Toast.makeText(MainActivity.this, "You Clicked Android", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (id == R.id.java) {
+                            Toast.makeText(MainActivity.this, "You Clicked JAVA", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (id == R.id.kotlin) {
+                            Toast.makeText(MainActivity.this, "You Clicked Kotlin", Toast.LENGTH_SHORT).show();
+                        }
+
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
     }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        binding.buttonFirst.setOnClickListener(v ->
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment)
-        );
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
 }
