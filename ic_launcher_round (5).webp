@@ -1,26 +1,39 @@
-package com.example.imagebutton;
+package com.example.seekbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton imageButton;
+    SeekBar seekBar;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageButton = findViewById(R.id.imageButton);
+        seekBar = findViewById(R.id.seekBar);
+        textView = findViewById(R.id.textView);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Image Button Clicked!", Toast.LENGTH_SHORT).show();
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textView.setText("Progress: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Optional
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Optional
             }
         });
     }
